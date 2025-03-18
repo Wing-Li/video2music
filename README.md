@@ -2,7 +2,7 @@
 
 一个简单易用的视频转音频工具，可以批量将视频文件转换为MP3格式的音频文件。
 
-![image](https://github.com/Wing-Li/video2music/blob/res/screenshot.png)
+![image](https://github.com/Wing-Li/video2music/blob/main/res/screenshot.png)
 
 
 ## 功能特点
