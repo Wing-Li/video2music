@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FFmpeg 视频转音频转换器</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #status {
+            height: 400px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 20px;
+            overflow-y: auto;
+            background: #fafafa;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+        }
+        .progress-container {
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.3s ease;
+        }
+        .path-display {
+            margin-left: 15px;
+            color: #666;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FFmpeg 视频转音频转换器</h1>
+        
+        <div class="input-group">
+            <button onclick="selectInputDir()">选择输入目录</button>
+            <span id="inputDir" class="path-display">未选择目录</span>
+        </div>
+
+        <div class="input-group">
+            <button onclick="selectOutputDir()">选择输出目录</button>
+            <span id="outputDir" class="path-display">未选择目录</span>
+        </div>
+
+        <div class="progress-container">
+            <div id="progressBar"></div>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="startConversion()" id="convertBtn">开始转换</button>
+        </div>
+
+        <div id="status"></div>
+    </div>
+
+    <script src="/eel.js"></script>
+    <script>
+        let inputDir = '';
+        let outputDir = '';
+        let totalFiles = 0;
+        let completedFiles = 0;
+
+        async function selectInputDir() {
+            const dir = await eel.select_directory()();
+            if (dir) {
+                inputDir = dir;
+                document.getElementById('inputDir').textContent = dir;
+                updateFileCount();
+            }
+        }
+
+        async function selectOutputDir() {
+            const dir = await eel.select_directory()();
+            if (dir) {
+                outputDir = dir;
+                document.getElementById('outputDir').textContent = dir;
+            }
+        }
+
+        async function updateFileCount() {
+            if (inputDir) {
+                const count = await eel.get_file_count(inputDir)();
+                totalFiles = count;
+                document.getElementById('status').innerHTML = 
+                    `检测到 ${count} 个可转换文件<br>`;
+            }
+        }
+
+        function updateProgress() {
+            const progress = totalFiles > 0 ? 
+                Math.round((completedFiles / totalFiles) * 100) : 0;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        function startConversion() {
+            if (!inputDir || !outputDir) {
+                alert('请先选择输入和输出目录！');
+                return;
+            }
+            
+            document.getElementById('convertBtn').disabled = true;
+            completedFiles = 0;
+            updateProgress();
+            eel.start_conversion(inputDir, outputDir);
+        }
+
+        eel.expose(update_status);
+        function update_status(message) {
+            const statusDiv = document.getElementById('status');
+            const isScrolledToBottom = 
+                statusDiv.scrollHeight - statusDiv.clientHeight <= statusDiv.scrollTop + 1;
+
+            statusDiv.innerHTML += message + '<br>';
+            
+            if (isScrolledToBottom) {
+                statusDiv.scrollTop = statusDiv.scrollHeight;
+            }
+
+            if (message.startsWith("成功") || message.startsWith("失败")) {
+                completedFiles++;
+                updateProgress();
+            }
+
+            if (completedFiles === totalFiles && totalFiles > 0) {
+                document.getElementById('convertBtn').disabled = false;
+            }
+        }
+
+        // 初始化时清除旧状态
+        document.getElementById('status').innerHTML = '';
+    </script>
+</body>
+</html>
