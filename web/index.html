@@ -1,116 +1,217 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FFmpeg 视频转音频转换器</title>
+    <title>视频音频处理工具</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap">
     <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --secondary: #00cec9;
+        }
+        
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Nunito', sans-serif;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
         }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .input-group {
-            margin-bottom: 25px;
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 5px;
+        
+        .gradient-border::after {
+            content: '';
+            position: absolute;
+            height: 3px;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px 3px 0 0;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
+        
+        .pulse {
+            animation: pulse 2s infinite;
         }
-        button:hover {
-            background-color: #45a049;
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
         }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        #status {
-            height: 400px;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-top: 20px;
-            overflow-y: auto;
-            background: #fafafa;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
+        
+        .animate-fade {
+            animation: fadeIn 0.5s ease;
         }
-        .progress-container {
-            height: 20px;
-            background-color: #eee;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
+        
+        .tab-content {
+            display: none;
         }
-        #progressBar {
-            width: 0%;
-            height: 100%;
-            background-color: #4CAF50;
-            transition: width 0.3s ease;
-        }
-        .path-display {
-            margin-left: 15px;
-            color: #666;
-            word-break: break-all;
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>FFmpeg 视频转音频转换器</h1>
-        
-        <div class="input-group">
-            <button onclick="selectInputDir()">选择输入目录</button>
-            <span id="inputDir" class="path-display">未选择目录</span>
-        </div>
+<body class="bg-gray-50 text-gray-800">
+    <div class="min-h-screen flex justify-center items-center py-10">
+        <div class="w-full max-w-5xl mx-auto bg-white rounded-2xl shadow-md p-8 md:p-10">
+            <h1 class="text-3xl font-bold text-center mb-10 pb-3 relative">
+                <span class="gradient-text">视频音频处理工具</span>
+                <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full"></span>
+            </h1>
+            
+            <div class="flex border-b border-gray-200 mb-8">
+                <div class="tab cursor-pointer py-3 px-6 font-semibold text-gray-500 hover:text-indigo-600 transition-colors duration-300 relative active" onclick="switchTab('video2audio')">视频转音频</div>
+                <div class="tab cursor-pointer py-3 px-6 font-semibold text-gray-500 hover:text-indigo-600 transition-colors duration-300 relative" onclick="switchTab('speech2text')">语音转文字</div>
+            </div>
 
-        <div class="input-group">
-            <button onclick="selectOutputDir()">选择输出目录</button>
-            <span id="outputDir" class="path-display">未选择目录</span>
-        </div>
+            <!-- 视频转音频面板 -->
+            <div id="video2audio" class="tab-content active">
+                <div class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
+                    <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+                        <div class="font-semibold min-w-[100px] mb-2 md:mb-0">输入目录</div>
+                        <div id="inputDir" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择目录</div>
+                        <button onclick="selectInputDir()" class="ml-0 md:ml-4 mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            选择目录
+                        </button>
+                    </div>
 
-        <div class="progress-container">
-            <div id="progressBar"></div>
-        </div>
+                    <div class="flex flex-col md:flex-row items-start md:items-center">
+                        <div class="font-semibold min-w-[100px] mb-2 md:mb-0">输出目录</div>
+                        <div id="outputDir" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择目录</div>
+                        <button onclick="selectOutputDir()" class="ml-0 md:ml-4 mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            选择目录
+                        </button>
+                    </div>
+                </div>
 
-        <div style="text-align: center;">
-            <button onclick="startConversion()" id="convertBtn">开始转换</button>
-        </div>
+                <div class="h-2 bg-gray-100 rounded overflow-hidden my-8">
+                    <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-indigo-500 to-cyan-400 transition-all duration-500 rounded"></div>
+                </div>
 
-        <div id="status"></div>
+                <div class="flex justify-center">
+                    <button onclick="startConversion()" id="convertBtn" class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                        开始转换
+                    </button>
+                </div>
+            </div>
+
+            <!-- 语音转文字面板 -->
+            <div id="speech2text" class="tab-content">
+                <div class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
+                    <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+                        <div class="font-semibold min-w-[100px] mb-2 md:mb-0">音频文件</div>
+                        <div id="audioFile" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择文件</div>
+                        <button onclick="selectAudioFile()" class="ml-0 md:ml-4 mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            选择文件
+                        </button>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+                        <div class="font-semibold min-w-[100px] mb-2 md:mb-0">识别模型</div>
+                        <select id="modelSelect" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row items-start md:items-center">
+                        <div class="font-semibold min-w-[100px] mb-2 md:mb-0">识别语言</div>
+                        <select id="languageSelect" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <button onclick="loadModel()" id="loadModelBtn" class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        </svg>
+                        加载模型
+                    </button>
+                    <button onclick="startTranscription()" id="transcribeBtn" disabled class="bg-gray-300 text-gray-500 py-3 px-6 rounded-md shadow-md transition-all duration-300 flex items-center gap-2 cursor-not-allowed">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        开始转录
+                    </button>
+                </div>
+
+                <div id="transcriptionResult" class="opacity-0 h-0 overflow-hidden transition-all duration-300 mt-6"></div>
+            </div>
+
+            <div id="status" class="h-[300px] mt-8 p-5 bg-gray-50 border border-gray-200 rounded-lg overflow-y-auto font-mono text-sm text-gray-700"></div>
+        </div>
     </div>
 
     <script src="/eel.js"></script>
     <script>
         let inputDir = '';
         let outputDir = '';
+        let audioFilePath = '';
         let totalFiles = 0;
         let completedFiles = 0;
+        let modelLoaded = false;
+
+        // 初始化
+        window.onload = async function() {
+            // 清除旧状态
+            document.getElementById('status').innerHTML = '';
+            
+            // 加载模型和语言选项
+            await loadModelOptions();
+            await loadLanguageOptions();
+        }
+
+        function switchTab(tabId) {
+            // 更新标签状态
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active', 'text-indigo-600', 'gradient-border');
+                tab.classList.add('text-gray-500');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 激活选中标签
+            const selectedTab = document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`);
+            selectedTab.classList.add('active', 'text-indigo-600', 'gradient-border');
+            document.getElementById(tabId).classList.add('active');
+        }
 
         async function selectInputDir() {
             const dir = await eel.select_directory()();
             if (dir) {
                 inputDir = dir;
-                document.getElementById('inputDir').textContent = dir;
-                updateFileCount();
+                const el = document.getElementById('inputDir');
+                el.textContent = dir;
+                el.classList.remove('text-gray-500');
+                el.classList.add('text-gray-700', 'border-indigo-300');
             }
         }
 
@@ -118,16 +219,21 @@
             const dir = await eel.select_directory()();
             if (dir) {
                 outputDir = dir;
-                document.getElementById('outputDir').textContent = dir;
+                const el = document.getElementById('outputDir');
+                el.textContent = dir;
+                el.classList.remove('text-gray-500');
+                el.classList.add('text-gray-700', 'border-indigo-300');
             }
         }
 
-        async function updateFileCount() {
-            if (inputDir) {
-                const count = await eel.get_file_count(inputDir)();
-                totalFiles = count;
-                document.getElementById('status').innerHTML = 
-                    `检测到 ${count} 个可转换文件<br>`;
+        async function selectAudioFile() {
+            const file = await eel.select_file()();
+            if (file) {
+                audioFilePath = file;
+                const el = document.getElementById('audioFile');
+                el.textContent = file;
+                el.classList.remove('text-gray-500');
+                el.classList.add('text-gray-700', 'border-indigo-300');
             }
         }
 
@@ -144,9 +250,148 @@
             }
             
             document.getElementById('convertBtn').disabled = true;
+            document.getElementById('convertBtn').classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            document.getElementById('convertBtn').classList.remove('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700');
             completedFiles = 0;
             updateProgress();
             eel.start_conversion(inputDir, outputDir);
+        }
+
+        async function loadModelOptions() {
+            const models = await eel.get_available_models()();
+            const select = document.getElementById('modelSelect');
+            select.innerHTML = '';
+            
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.name;
+                option.textContent = `${model.name} - ${model.description}`;
+                select.appendChild(option);
+            });
+        }
+        
+        async function loadLanguageOptions() {
+            const languages = await eel.get_available_languages()();
+            const select = document.getElementById('languageSelect');
+            select.innerHTML = '';
+            
+            languages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang.code;
+                option.textContent = lang.name;
+                select.appendChild(option);
+            });
+        }
+        
+        async function loadModel() {
+            const modelName = document.getElementById('modelSelect').value;
+            document.getElementById('loadModelBtn').disabled = true;
+            document.getElementById('loadModelBtn').classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            document.getElementById('loadModelBtn').classList.remove('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700');
+            document.getElementById('status').innerHTML = `<div class="p-2 text-indigo-600">正在加载模型 ${modelName}...</div>`;
+            
+            modelLoaded = await eel.load_whisper_model(modelName)();
+            
+            if (modelLoaded) {
+                document.getElementById('transcribeBtn').disabled = false;
+                document.getElementById('transcribeBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                document.getElementById('transcribeBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
+                
+                document.getElementById('loadModelBtn').classList.add('pulse');
+                document.getElementById('loadModelBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                document.getElementById('loadModelBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
+                document.getElementById('loadModelBtn').disabled = false;
+                
+                setTimeout(() => {
+                    document.getElementById('loadModelBtn').classList.remove('pulse');
+                }, 2000);
+            } else {
+                document.getElementById('loadModelBtn').disabled = false;
+                document.getElementById('loadModelBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                document.getElementById('loadModelBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
+            }
+        }
+        
+        async function startTranscription() {
+            if (!audioFilePath) {
+                alert('请先选择音频或视频文件！');
+                return;
+            }
+            
+            if (!modelLoaded) {
+                alert('请先加载模型！');
+                return;
+            }
+            
+            document.getElementById('transcribeBtn').disabled = true;
+            document.getElementById('transcribeBtn').classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            document.getElementById('transcribeBtn').classList.remove('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
+            
+            const resultDiv = document.getElementById('transcriptionResult');
+            resultDiv.innerHTML = '<div class="text-center p-10"><svg class="animate-spin h-6 w-6 mx-auto text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><p class="mt-3 text-gray-600">正在转录中...</p></div>';
+            resultDiv.classList.remove('opacity-0', 'h-0');
+            resultDiv.classList.add('opacity-100', 'p-6', 'bg-gray-50', 'border', 'border-gray-200', 'rounded-lg');
+            
+            const language = document.getElementById('languageSelect').value;
+            const langOption = language === 'auto' ? null : language;
+            
+            const result = await eel.transcribe_audio(audioFilePath, langOption)();
+            
+            if (result.error) {
+                resultDiv.innerHTML = `<div class="text-red-500 p-5 text-center bg-red-50 rounded-lg border border-red-100">转录失败: ${result.error}</div>`;
+            } else {
+                displayTranscriptionResult(result);
+            }
+            
+            document.getElementById('transcribeBtn').disabled = false;
+            document.getElementById('transcribeBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            document.getElementById('transcribeBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
+        }
+        
+        function displayTranscriptionResult(result) {
+            const container = document.getElementById('transcriptionResult');
+            container.innerHTML = '';
+            
+            // 显示完整文本
+            const fullText = document.createElement('div');
+            fullText.className = 'p-5 bg-white rounded-lg shadow-sm mb-6 border-l-4 border-indigo-500 text-base leading-relaxed';
+            fullText.textContent = result.text;
+            container.appendChild(fullText);
+            
+            // 添加分段标题
+            const title = document.createElement('h3');
+            title.className = 'text-indigo-600 font-semibold mb-4 text-base';
+            title.textContent = '分段内容';
+            container.appendChild(title);
+            
+            // 添加分段内容
+            const segments = document.createElement('div');
+            segments.className = 'space-y-2';
+            result.segments.forEach(segment => {
+                const div = document.createElement('div');
+                div.className = 'flex bg-white p-3 rounded-lg shadow-sm hover:shadow transition-shadow duration-300';
+                
+                const timeTag = document.createElement('span');
+                timeTag.className = 'text-xs text-indigo-600 font-semibold min-w-[120px] pr-3 mr-3 border-r border-gray-200 flex items-center';
+                timeTag.textContent = `${formatTime(segment.start)} → ${formatTime(segment.end)}`;
+                
+                const textSpan = document.createElement('span');
+                textSpan.className = 'flex-1';
+                textSpan.textContent = segment.text;
+                
+                div.appendChild(timeTag);
+                div.appendChild(textSpan);
+                segments.appendChild(div);
+            });
+            
+            container.appendChild(segments);
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            const ms = Math.floor((seconds % 1) * 1000);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
         }
 
         eel.expose(update_status);
@@ -168,11 +413,10 @@
 
             if (completedFiles === totalFiles && totalFiles > 0) {
                 document.getElementById('convertBtn').disabled = false;
+                document.getElementById('convertBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                document.getElementById('convertBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
             }
         }
-
-        // 初始化时清除旧状态
-        document.getElementById('status').innerHTML = '';
     </script>
 </body>
 </html>
