@@ -8,6 +8,7 @@ import platform
 from modules import utils
 from modules import video2audio
 from modules import speech2text
+from modules import recording
 
 # 获取CPU核心数，用于设置最大并行转换数
 MAX_WORKERS = max(1, min(multiprocessing.cpu_count() - 1, 16))
@@ -36,5 +37,5 @@ if __name__ == '__main__':
                  size=(1280, 1000), 
                  mode='chrome')
     except Exception as e:
-        print(f"启动应用时出错: {str(e)}") 
+        print(f"启动应用时出错: {str(e)}")
  

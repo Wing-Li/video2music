@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>视频音频处理工具</title>
     <meta charset="UTF-8">
@@ -12,21 +13,21 @@
             --primary-light: #a29bfe;
             --secondary: #00cec9;
         }
-        
+
         body {
             font-family: 'Nunito', sans-serif;
         }
-        
+
         .gradient-bg {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
         }
-        
+
         .gradient-text {
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .gradient-border::after {
             content: '';
             position: absolute;
@@ -37,58 +38,84 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 3px 3px 0 0;
         }
-        
+
         .pulse {
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+            }
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         .animate-fade {
             animation: fadeIn 0.5s ease;
         }
-        
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
             animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800">
     <div class="min-h-screen flex justify-center items-center py-10">
         <div class="w-full max-w-5xl mx-auto bg-white rounded-2xl shadow-md p-8 md:p-10">
             <h1 class="text-3xl font-bold text-center mb-10 pb-3 relative">
                 <span class="gradient-text">视频音频处理工具</span>
-                <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full"></span>
+                <span
+                    class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full"></span>
             </h1>
-            
+
             <div class="flex border-b border-gray-200 mb-8">
-                <div class="tab cursor-pointer py-3 px-6 font-semibold text-gray-500 hover:text-indigo-600 transition-colors duration-300 relative active" onclick="switchTab('video2audio')">视频转音频</div>
-                <div class="tab cursor-pointer py-3 px-6 font-semibold text-gray-500 hover:text-indigo-600 transition-colors duration-300 relative" onclick="switchTab('speech2text')">语音转文字</div>
+                <div class="tab cursor-pointer py-3 px-6 font-semibold text-gray-500 hover:text-indigo-600 transition-colors duration-300 relative active"
+                    onclick="switchTab('video2audio')">视频转音频</div>
+                <div class="tab cursor-pointer py-3 px-6 font-semibold text-gray-500 hover:text-indigo-600 transition-colors duration-300 relative"
+                    onclick="switchTab('speech2text')">语音转文字</div>
             </div>
 
             <!-- 视频转音频面板 -->
             <div id="video2audio" class="tab-content active">
-                <div class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
+                <div
+                    class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">输入目录</div>
-                        <div id="inputDir" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择目录</div>
-                        <button onclick="selectInputDir()" class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        <div id="inputDir"
+                            class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">
+                            未选择目录</div>
+                        <button onclick="selectInputDir()"
+                            class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
                             </svg>
                             选择目录
                         </button>
@@ -96,10 +123,16 @@
 
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">输出目录</div>
-                        <div id="outputDir" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择目录</div>
-                        <button onclick="selectOutputDir()" class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        <div id="outputDir"
+                            class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">
+                            未选择目录</div>
+                        <button onclick="selectOutputDir()"
+                            class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
                             </svg>
                             选择目录
                         </button>
@@ -107,12 +140,16 @@
                 </div>
 
                 <div class="h-2 bg-gray-100 rounded overflow-hidden my-8">
-                    <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-indigo-500 to-cyan-400 transition-all duration-500 rounded"></div>
+                    <div id="progressBar"
+                        class="h-full w-0 bg-gradient-to-r from-indigo-500 to-cyan-400 transition-all duration-500 rounded">
+                    </div>
                 </div>
 
                 <div class="flex justify-center">
-                    <button onclick="startConversion()" id="convertBtn" class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <button onclick="startConversion()" id="convertBtn"
+                        class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                         开始转换
@@ -122,12 +159,62 @@
 
             <!-- 语音转文字面板 -->
             <div id="speech2text" class="tab-content">
-                <div class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
+                <!-- 录音模块 -->
+                <div
+                    class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100">录音功能</h3>
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
+                        <div class="font-semibold min-w-[100px] mb-2 md:mb-0">录音目录</div>
+                        <div id="recordingDir"
+                            class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">
+                            未选择目录</div>
+                        <button onclick="selectRecordingDir()"
+                            class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
+                            </svg>
+                            选择目录
+                        </button>
+                    </div>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="startRecording()" id="recordBtn"
+                            class="bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-6 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="6"></circle>
+                            </svg>
+                            开始录音
+                        </button>
+                        <button onclick="stopRecording()" id="stopRecordBtn" disabled
+                            class="bg-gray-300 text-gray-500 py-3 px-6 rounded-md shadow-md transition-all duration-300 flex items-center gap-2 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="6" y="6" width="12" height="12"></rect>
+                            </svg>
+                            停止录音
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 转文本模块 -->
+                <div
+                    class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-4 pb-2 border-b border-gray-100">转录功能</h3>
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">音频文件</div>
-                        <div id="audioFile" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择文件</div>
-                        <button onclick="selectAudioFile()" class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div id="audioFile"
+                            class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">
+                            未选择文件</div>
+                        <button onclick="selectAudioFile()"
+                            class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -135,37 +222,50 @@
                             选择文件
                         </button>
                     </div>
-                    
+
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">识别模型</div>
-                        <select id="modelSelect" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
+                        <select id="modelSelect"
+                            class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
                     </div>
-                    
-                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">识别语言</div>
-                        <select id="languageSelect" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
+                        <select id="languageSelect"
+                            class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
+                    </div>
+
+                    <div class="flex justify-center gap-4">
+                        <button onclick="loadModel()" id="loadModelBtn"
+                            class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                </path>
+                            </svg>
+                            加载模型
+                        </button>
+                        <button onclick="startTranscription()" id="transcribeBtn" disabled
+                            class="bg-gray-300 text-gray-500 py-3 px-6 rounded-md shadow-md transition-all duration-300 flex items-center gap-2 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            开始转录
+                        </button>
                     </div>
                 </div>
 
-                <div class="flex justify-center gap-4">
-                    <button onclick="loadModel()" id="loadModelBtn" class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                        </svg>
-                        加载模型
-                    </button>
-                    <button onclick="startTranscription()" id="transcribeBtn" disabled class="bg-gray-300 text-gray-500 py-3 px-6 rounded-md shadow-md transition-all duration-300 flex items-center gap-2 cursor-not-allowed">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                        开始转录
-                    </button>
+                <div id="transcriptionResult" class="opacity-0 h-0 overflow-hidden transition-all duration-300 mt-6">
                 </div>
-
-                <div id="transcriptionResult" class="opacity-0 h-0 overflow-hidden transition-all duration-300 mt-6"></div>
             </div>
 
-            <div id="status" class="h-[300px] mt-8 p-5 bg-gray-50 border border-gray-200 rounded-lg overflow-y-auto font-mono text-sm text-gray-700"></div>
+            <div id="status"
+                class="h-[300px] mt-8 p-5 bg-gray-50 border border-gray-200 rounded-lg overflow-y-auto font-mono text-sm text-gray-700">
+            </div>
         </div>
     </div>
 
@@ -174,15 +274,19 @@
         let inputDir = '';
         let outputDir = '';
         let audioFilePath = '';
+        let recordingDir = '';
         let totalFiles = 0;
         let completedFiles = 0;
         let modelLoaded = false;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let isRecording = false;
 
         // 初始化
-        window.onload = async function() {
+        window.onload = async function () {
             // 清除旧状态
             document.getElementById('status').innerHTML = '';
-            
+
             // 加载模型和语言选项
             await loadModelOptions();
             await loadLanguageOptions();
@@ -198,7 +302,7 @@
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
-            
+
             // 激活选中标签
             const selectedTab = document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`);
             selectedTab.classList.add('active', 'text-indigo-600', 'gradient-border');
@@ -238,8 +342,112 @@
             }
         }
 
+        async function selectRecordingDir() {
+            const dir = await eel.select_directory()();
+            if (dir) {
+                recordingDir = dir;
+                const el = document.getElementById('recordingDir');
+                el.textContent = dir;
+                el.classList.remove('text-gray-500');
+                el.classList.add('text-gray-700', 'border-indigo-300');
+            }
+        }
+
+        async function startRecording() {
+            if (!recordingDir) {
+                alert('请先选择录音保存目录！');
+                return;
+            }
+
+            try {
+                // 请求麦克风权限
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                // 创建MediaRecorder实例
+                mediaRecorder = new MediaRecorder(stream);
+                recordedChunks = [];
+
+                // 收集录音数据
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) {
+                        recordedChunks.push(e.data);
+                    }
+                };
+
+                // 录音停止后的处理
+                mediaRecorder.onstop = async () => {
+                    // 创建Blob对象
+                    const audioBlob = new Blob(recordedChunks, { type: 'audio/mp3' });
+
+                    // 将Blob转换为ArrayBuffer
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+                    const uint8Array = new Uint8Array(arrayBuffer);
+
+                    // 发送到Python后端保存
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    const fileName = `recording_${timestamp}.mp3`;
+                    const savedPath = await eel.save_recording(Array.from(uint8Array), recordingDir, fileName)();
+
+                    if (savedPath) {
+                        audioFilePath = savedPath;
+                        const el = document.getElementById('audioFile');
+                        el.textContent = savedPath;
+                        el.classList.remove('text-gray-500');
+                        el.classList.add('text-gray-700', 'border-indigo-300');
+
+                        eel.update_status(`录音已保存到: ${savedPath}`);
+                    }
+
+                    // 重置录音状态
+                    isRecording = false;
+                    updateRecordingButtons();
+                };
+
+                // 开始录音
+                mediaRecorder.start();
+                isRecording = true;
+                updateRecordingButtons();
+                eel.update_status('开始录音...');
+            } catch (err) {
+                alert(`无法访问麦克风: ${err.message}`);
+                console.error('录音错误:', err);
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                // 停止所有音轨
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                eel.update_status('录音已停止，正在处理...');
+            }
+        }
+
+        function updateRecordingButtons() {
+            const recordBtn = document.getElementById('recordBtn');
+            const stopRecordBtn = document.getElementById('stopRecordBtn');
+
+            if (isRecording) {
+                recordBtn.disabled = true;
+                recordBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                recordBtn.classList.remove('bg-gradient-to-r', 'from-red-500', 'to-red-600');
+
+                stopRecordBtn.disabled = false;
+                stopRecordBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                stopRecordBtn.classList.add('bg-gradient-to-r', 'from-red-500', 'to-red-600', 'text-white');
+            } else {
+                recordBtn.disabled = false;
+                recordBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                recordBtn.classList.add('bg-gradient-to-r', 'from-red-500', 'to-red-600', 'text-white');
+
+                stopRecordBtn.disabled = true;
+                stopRecordBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                stopRecordBtn.classList.remove('bg-gradient-to-r', 'from-red-500', 'to-red-600');
+            }
+        }
+
         function updateProgress() {
-            const progress = totalFiles > 0 ? 
+            const progress = totalFiles > 0 ?
                 Math.round((completedFiles / totalFiles) * 100) : 0;
             document.getElementById('progressBar').style.width = `${progress}%`;
         }
@@ -249,7 +457,7 @@
                 alert('请先选择输入和输出目录！');
                 return;
             }
-            
+
             document.getElementById('convertBtn').disabled = true;
             document.getElementById('convertBtn').classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
             document.getElementById('convertBtn').classList.remove('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700');
@@ -262,7 +470,7 @@
             const models = await eel.get_available_models()();
             const select = document.getElementById('modelSelect');
             select.innerHTML = '';
-            
+
             models.forEach(model => {
                 const option = document.createElement('option');
                 option.value = model.name;
@@ -270,12 +478,12 @@
                 select.appendChild(option);
             });
         }
-        
+
         async function loadLanguageOptions() {
             const languages = await eel.get_available_languages()();
             const select = document.getElementById('languageSelect');
             select.innerHTML = '';
-            
+
             languages.forEach(lang => {
                 const option = document.createElement('option');
                 option.value = lang.code;
@@ -283,26 +491,26 @@
                 select.appendChild(option);
             });
         }
-        
+
         async function loadModel() {
             const modelName = document.getElementById('modelSelect').value;
             document.getElementById('loadModelBtn').disabled = true;
             document.getElementById('loadModelBtn').classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
             document.getElementById('loadModelBtn').classList.remove('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700');
             document.getElementById('status').innerHTML = `<div class="p-2 text-indigo-600">正在加载模型 ${modelName}...</div>`;
-            
+
             modelLoaded = await eel.load_whisper_model(modelName)();
-            
+
             if (modelLoaded) {
                 document.getElementById('transcribeBtn').disabled = false;
                 document.getElementById('transcribeBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
                 document.getElementById('transcribeBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
-                
+
                 document.getElementById('loadModelBtn').classList.add('pulse');
                 document.getElementById('loadModelBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
                 document.getElementById('loadModelBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
                 document.getElementById('loadModelBtn').disabled = false;
-                
+
                 setTimeout(() => {
                     document.getElementById('loadModelBtn').classList.remove('pulse');
                 }, 2000);
@@ -312,82 +520,82 @@
                 document.getElementById('loadModelBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
             }
         }
-        
+
         async function startTranscription() {
             if (!audioFilePath) {
                 alert('请先选择音频或视频文件！');
                 return;
             }
-            
+
             if (!modelLoaded) {
                 alert('请先加载模型！');
                 return;
             }
-            
+
             document.getElementById('transcribeBtn').disabled = true;
             document.getElementById('transcribeBtn').classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
             document.getElementById('transcribeBtn').classList.remove('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
-            
+
             const resultDiv = document.getElementById('transcriptionResult');
             resultDiv.innerHTML = '<div class="text-center p-10"><svg class="animate-spin h-6 w-6 mx-auto text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><p class="mt-3 text-gray-600">正在转录中...</p></div>';
             resultDiv.classList.remove('opacity-0', 'h-0');
             resultDiv.classList.add('opacity-100', 'p-6', 'bg-gray-50', 'border', 'border-gray-200', 'rounded-lg');
-            
+
             const language = document.getElementById('languageSelect').value;
             const langOption = language === 'auto' ? null : language;
-            
+
             const result = await eel.transcribe_audio(audioFilePath, langOption)();
-            
+
             if (result.error) {
                 resultDiv.innerHTML = `<div class="text-red-500 p-5 text-center bg-red-50 rounded-lg border border-red-100">转录失败: ${result.error}</div>`;
             } else {
                 displayTranscriptionResult(result);
             }
-            
+
             document.getElementById('transcribeBtn').disabled = false;
             document.getElementById('transcribeBtn').classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
             document.getElementById('transcribeBtn').classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-indigo-700', 'text-white');
         }
-        
+
         function displayTranscriptionResult(result) {
             const container = document.getElementById('transcriptionResult');
             container.innerHTML = '';
-            
+
             // 显示完整文本
             const fullText = document.createElement('div');
             fullText.className = 'p-5 bg-white rounded-lg shadow-sm mb-6 border-l-4 border-indigo-500 text-base leading-relaxed';
             fullText.textContent = result.text;
             container.appendChild(fullText);
-            
+
             // 添加分段标题
             const title = document.createElement('h3');
             title.className = 'text-indigo-600 font-semibold mb-4 text-base';
             title.textContent = '分段内容';
             container.appendChild(title);
-            
+
             // 添加分段内容
             const segments = document.createElement('div');
             segments.className = 'space-y-2';
             result.segments.forEach(segment => {
                 const div = document.createElement('div');
                 div.className = 'flex bg-white p-3 rounded-lg shadow-sm hover:shadow transition-shadow duration-300';
-                
+
                 const timeTag = document.createElement('span');
                 timeTag.className = 'text-xs text-indigo-600 font-semibold min-w-[120px] pr-3 mr-3 border-r border-gray-200 flex items-center';
                 timeTag.textContent = `${formatTime(segment.start)} → ${formatTime(segment.end)}`;
-                
+
                 const textSpan = document.createElement('span');
                 textSpan.className = 'flex-1';
                 textSpan.textContent = segment.text;
-                
+
                 div.appendChild(timeTag);
                 div.appendChild(textSpan);
                 segments.appendChild(div);
             });
-            
+
             container.appendChild(segments);
         }
-        
+
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
@@ -398,11 +606,11 @@
         eel.expose(update_status);
         function update_status(message) {
             const statusDiv = document.getElementById('status');
-            const isScrolledToBottom = 
+            const isScrolledToBottom =
                 statusDiv.scrollHeight - statusDiv.clientHeight <= statusDiv.scrollTop + 1;
 
             statusDiv.innerHTML += message + '<br>';
-            
+
             if (isScrolledToBottom) {
                 statusDiv.scrollTop = statusDiv.scrollHeight;
             }
@@ -420,4 +628,5 @@
         }
     </script>
 </body>
+
 </html>

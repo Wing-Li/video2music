@@ -4,6 +4,17 @@ import tkinter as tk
 from tkinter import filedialog
 
 @eel.expose
+def update_status(message):
+    """更新前端状态显示
+    
+    参数:
+        message: 要显示的状态消息
+    """
+    # 这个函数会被暴露给JavaScript，用于更新前端状态
+    # 实际的更新操作会在JavaScript端完成
+    pass
+
+@eel.expose
 def select_directory():
     """打开文件夹选择对话框"""
     root = tk.Tk()
@@ -26,4 +37,4 @@ def select_file(filetypes=None):
     root.withdraw()
     file_path = filedialog.askopenfilename(filetypes=filetypes)
     root.destroy()
-    return file_path 
+    return file_path
