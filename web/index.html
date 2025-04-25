@@ -83,10 +83,10 @@
             <!-- 视频转音频面板 -->
             <div id="video2audio" class="tab-content active">
                 <div class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
-                    <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">输入目录</div>
                         <div id="inputDir" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择目录</div>
-                        <button onclick="selectInputDir()" class="ml-0 md:ml-4 mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                        <button onclick="selectInputDir()" class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                             </svg>
@@ -94,10 +94,10 @@
                         </button>
                     </div>
 
-                    <div class="flex flex-col md:flex-row items-start md:items-center">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">输出目录</div>
                         <div id="outputDir" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择目录</div>
-                        <button onclick="selectOutputDir()" class="ml-0 md:ml-4 mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                        <button onclick="selectOutputDir()" class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                             </svg>
@@ -123,10 +123,10 @@
             <!-- 语音转文字面板 -->
             <div id="speech2text" class="tab-content">
                 <div class="bg-white border border-gray-100 rounded-xl shadow-sm p-6 mb-6 transition-shadow duration-300 hover:shadow-md">
-                    <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">音频文件</div>
                         <div id="audioFile" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-500 text-sm min-h-[40px] flex items-center transition-colors duration-300">未选择文件</div>
-                        <button onclick="selectAudioFile()" class="ml-0 md:ml-4 mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
+                        <button onclick="selectAudioFile()" class="mt-2 md:mt-0 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 px-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
@@ -136,12 +136,12 @@
                         </button>
                     </div>
                     
-                    <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">识别模型</div>
                         <select id="modelSelect" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
                     </div>
                     
-                    <div class="flex flex-col md:flex-row items-start md:items-center">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
                         <div class="font-semibold min-w-[100px] mb-2 md:mb-0">识别语言</div>
                         <select id="languageSelect" class="flex-1 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 text-gray-700 text-sm transition-colors duration-300 focus:border-indigo-400 focus:outline-none"></select>
                     </div>
@@ -186,6 +186,7 @@
             // 加载模型和语言选项
             await loadModelOptions();
             await loadLanguageOptions();
+            switchTab('video2audio');
         }
 
         function switchTab(tabId) {

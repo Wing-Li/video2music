@@ -33,7 +33,7 @@ if __name__ == '__main__':
     try:
         # 使用通用的窗口设置，避免干扰对话框
         eel.start('index.html', 
-                 size=(1000, 800), 
+                 size=(1280, 1000), 
                  mode='chrome')
     except Exception as e:
         print(f"启动应用时出错: {str(e)}") 
